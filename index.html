@@ -1,753 +1,197 @@
- 
+
 <!DOCTYPE html>
 <html lang="hi">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Shahdol District AI</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-
+<title>Shahdol District Portal</title>
 <style>
-:root{
- --bg:#050b18;
- --panel:#101d32;
- --blue:#32aaff;
- --cyan:#00e5ff;
- --text:#edf6ff;
- --muted:#91a6c2;
-}
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{
- margin:0;
- font-family:Inter,Arial,sans-serif;
- background:var(--bg);
- color:var(--text);
- overflow-x:hidden;
-}
-body:before{
- content:"";
- position:fixed;
- inset:0;
- z-index:-1;
- background:
- radial-gradient(ellipse at 15% 10%,#073a6855,transparent 40%),
- radial-gradient(ellipse at 85% 40%,#004d6550,transparent 40%),
- linear-gradient(140deg,#050b18,#09162a,#050b18);
-}
-header{
- padding:18px 6%;
- display:flex;
- justify-content:space-between;
- align-items:center;
- border-bottom:1px solid #ffffff18;
- background:#081426cc;
- backdrop-filter:blur(18px);
- position:sticky;
- top:0;
- z-index:10;
-}
-.logo{
- font-size:19px;
- font-weight:900;
- color:#5bcaff;
-}
-nav a{
- color:#c5d7ec;
- text-decoration:none;
- margin-left:18px;
- font-size:13px;
-}
-nav a:hover{color:var(--cyan)}
-.hero{
- padding:75px 20px 55px;
- text-align:center;
- position:relative;
-}
-.hero h1{
- font-size:clamp(35px,7vw,72px);
- margin:15px 0;
- font-weight:900;
- background:linear-gradient(90deg,#fff,#54caff,#00e5ff);
- -webkit-background-clip:text;
- color:transparent;
-}
-.hero p{color:var(--muted);line-height:1.8}
-.tag{
- display:inline-block;
- border:1px solid #36baff77;
- color:#65d4ff;
- padding:9px 17px;
- border-radius:30px;
- background:#0b2b4666;
- font-size:12px;
-}
-.container{max-width:1200px;margin:auto;padding:20px}
-.section-title{
- font-size:24px;
- font-weight:800;
- margin:30px 0 18px;
-}
-.section-title span{color:var(--cyan)}
-.glass{
- background:linear-gradient(145deg,#172941cc,#0c182bcc);
- border:1px solid #ffffff17;
- border-radius:20px;
- padding:22px;
- box-shadow:0 15px 40px #0005, inset 0 1px #ffffff12;
- backdrop-filter:blur(15px);
-}
-.stats{
- display:grid;
- grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
- gap:16px;
-}
-.stat{
- background:linear-gradient(145deg,#173b5b,#0c192e);
- border:1px solid #3dbaff44;
- border-radius:17px;
- padding:22px;
- transition:.35s;
- box-shadow:0 10px 20px #0005;
-}
-.stat:hover,.category:hover{
- transform:translateY(-7px) perspective(700px) rotateX(3deg);
- border-color:#39caff;
- box-shadow:0 15px 30px #00bfff20;
-}
-.stat b{
- display:block;
- font-size:29px;
- color:#56d4ff;
- margin-bottom:8px;
-}
-.stat small{color:var(--muted)}
-.categories{
- display:grid;
- grid-template-columns:repeat(auto-fit,minmax(145px,1fr));
- gap:13px;
-}
-.category{
- background:linear-gradient(145deg,#172b45,#0b1729);
- padding:20px 12px;
- text-align:center;
- border:1px solid #ffffff18;
- border-radius:16px;
- cursor:pointer;
- transition:.3s;
-}
-.category .emoji{font-size:30px;display:block;margin-bottom:10px}
-.category b{font-size:13px}
-input,select,textarea{
- width:100%;
- padding:14px;
- background:#081528;
- color:white;
- border:1px solid #35516d;
- border-radius:11px;
- outline:none;
- margin:6px 0;
- font-family:inherit;
-}
-input:focus,select:focus,textarea:focus{
- border-color:#36c4ff;
- box-shadow:0 0 12px #00bfff22;
-}
-button{
- background:linear-gradient(120deg,#087bd8,#00a9cb);
- color:white;
- border:0;
- padding:13px 18px;
- border-radius:10px;
- cursor:pointer;
- font-weight:700;
- margin:5px 3px;
- transition:.25s;
-}
-button:hover{
- transform:translateY(-2px);
- box-shadow:0 7px 20px #00aaff44;
-}
-button:disabled{opacity:.5;cursor:wait}
-.secondary{background:#253c58}
-.danger{background:#9b303c}
-#results{
- display:grid;
- grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
- gap:14px;
- margin-top:20px;
-}
-.place{
- background:linear-gradient(145deg,#172a43,#09172a);
- padding:18px;
- border-radius:15px;
- border:1px solid #ffffff18;
- transition:.3s;
-}
-.place:hover{
- transform:translateY(-5px);
- border-color:#39bfff88;
-}
-.place h3{color:#61ceff;margin-top:0}
-.place p{
- color:#b8c9dd;
- font-size:13px;
- line-height:1.8;
- overflow-wrap:anywhere;
-}
-.place a{color:#56d5ff;font-size:13px}
-.map{
- width:100%;
- height:390px;
- border:0;
- border-radius:15px;
- background:#14243b;
-}
-.row{display:flex;gap:10px;flex-wrap:wrap}
-.row>*{flex:1;min-width:150px}
-footer{
- text-align:center;
- color:#8399b4;
- padding:35px 15px;
- border-top:1px solid #ffffff17;
- margin-top:50px;
- font-size:12px;
-}
-#status{color:#62d9ff;font-size:13px;line-height:1.7}
-#answer{
- white-space:pre-wrap;
- line-height:1.8;
- color:#d3e8ff;
- margin-top:15px;
-}
-.note{font-size:12px;color:#92a9c4;line-height:1.7}
-@media(max-width:650px){
- header{padding:15px;flex-wrap:wrap;gap:10px}
- nav{width:100%;display:flex;gap:12px;overflow:auto}
- nav a{margin:0;white-space:nowrap}
- .hero{padding:55px 15px}
- .container{padding:12px}
-}
+body{margin:0;font-family:Arial,sans-serif;color:#eef7ff;background:linear-gradient(135deg,#061321,#102c43,#10132c);min-height:100vh}
+header{position:sticky;top:0;z-index:10;background:#071526ed;backdrop-filter:blur(15px);padding:15px 5%;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;border-bottom:1px solid #36baff55}
+.logo{font-size:22px;font-weight:900;color:#54d5ff}
+nav{display:flex;gap:8px;flex-wrap:wrap}
+nav button{background:transparent;color:#d7eaff;border:1px solid #ffffff22;padding:10px 13px;border-radius:9px;cursor:pointer}
+nav button:hover,nav button.active{background:#078ac5;color:white}
+.hero{text-align:center;padding:65px 18px 35px}
+.hero h1{font-size:clamp(35px,7vw,65px);margin:10px;background:linear-gradient(90deg,#fff,#49d6ff);color:transparent;background-clip:text}
+.hero p{color:#a9bfd5;line-height:1.8}
+.container{max-width:1150px;margin:auto;padding:20px}
+.page{display:none;animation:fade .3s}
+.page.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.title{font-size:28px;color:#65d8ff;margin:15px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:17px}
+.card{background:#102942cc;border:1px solid #54cfff44;border-radius:17px;padding:18px;box-shadow:0 12px 30px #0005;transition:.25s}
+.card:hover{transform:translateY(-5px);border-color:#59dcff}
+.card h3{color:#70dcff;margin-top:0}
+.card p{color:#c2d3e4;line-height:1.7;font-size:14px}
+.card img{width:100%;height:165px;object-fit:cover;border-radius:12px;margin-bottom:10px}
+.btn{display:inline-block;background:linear-gradient(120deg,#087bd8,#00a9cb);border:0;color:white;padding:11px 16px;border-radius:9px;text-decoration:none;cursor:pointer;margin:4px}
+input,select{padding:13px;border-radius:9px;border:1px solid #3a6682;background:#071a2b;color:white;width:100%;margin:7px 0}
+.stat{font-size:30px;color:#65dcff;font-weight:bold}
+footer{text-align:center;padding:30px;color:#8fa9c1;border-top:1px solid #ffffff22;margin-top:45px}
+.map{width:100%;height:380px;border:0;border-radius:15px}
+.tag{display:inline-block;background:#0c3855;padding:8px 13px;border-radius:20px;color:#6edcff}
+@media(max-width:650px){header{gap:12px}nav{overflow-x:auto;flex-wrap:nowrap;width:100%}nav button{white-space:nowrap}.hero{padding:40px 15px}}
 </style>
 </head>
-
 <body>
 
 <header>
-<div class="logo">🌍 SHAHDOL AI</div>
-<nav>
-<a href="#home">Home</a>
-<a href="#categories">Categories</a>
-<a href="#explore">Explore</a>
-<a href="#map">Map</a>
-<a href="#ai">AI</a>
-</nav>
+ <div class="logo">🌍 SHAHDOL AI</div>
+ <nav>
+  <button class="active" onclick="showPage('home',this)">Home</button>
+  <button onclick="showPage('hospitals',this)">Hospitals</button>
+  <button onclick="showPage('tourism',this)">Tourism</button>
+  <button onclick="showPage('sabziyan',this)">Sabziyan</button>
+  <button onclick="showPage('gallery',this)">Gallery</button>
+  <button onclick="showPage('explore',this)">Explore & Map</button>
+ </nav>
 </header>
 
-<section class="hero" id="home">
-<div class="tag">✦ DIGITAL DISTRICT INFORMATION PORTAL</div>
-<h1>SHAHDOL DISTRICT</h1>
-<h2>Explore Your District With AI</h2>
-<p>
-शहडोल जिले की जानकारी अब एक ही जगह।<br>
-Hospitals • Temples • Tourism • Roads • Police • Education
-</p>
-<button onclick="document.querySelector('#explore').scrollIntoView()">
-Explore District ↓
-</button>
+<section class="hero">
+ <span class="tag">MADHYA PRADESH • INDIA</span>
+ <h1>Welcome to Shahdol</h1>
+ <p>शहडोल जिले की जानकारी, अस्पताल, पर्यटन स्थल, सब्जियाँ और खूबसूरत तस्वीरें एक ही वेबसाइट पर।</p>
 </section>
 
 <main class="container">
 
-<h2 class="section-title">📊 District <span>Overview</span></h2>
+<section id="home" class="page active">
+ <h2 class="title">🏡 Shahdol District</h2>
+ <div class="card">
+  <h3>शहडोल के बारे में</h3>
+  <p>शहडोल मध्य प्रदेश का एक जिला है। यह क्षेत्र अपनी प्राकृतिक सुंदरता, नदियों, धार्मिक स्थलों और स्थानीय संस्कृति के लिए जाना जाता है।</p>
+ </div>
+ <h2 class="title">Explore Categories</h2>
+ <div class="grid">
+  <div class="card"><h3>🏥 Hospitals</h3><p>अस्पताल और स्वास्थ्य सेवाओं की जानकारी।</p><button class="btn" onclick="showPage('hospitals')">Open Page</button></div>
+  <div class="card"><h3>🏞️ Tourism</h3><p>शहडोल के पर्यटन और घूमने की जगहें।</p><button class="btn" onclick="showPage('tourism')">Open Page</button></div>
+  <div class="card"><h3>🥬 Sabziyan</h3><p>स्थानीय सब्जियाँ और कृषि की जानकारी।</p><button class="btn" onclick="showPage('sabziyan')">Open Page</button></div>
+  <div class="card"><h3>📸 Photo Gallery</h3><p>शहडोल की जगहों की तस्वीरें।</p><button class="btn" onclick="showPage('gallery')">Open Page</button></div>
+ </div>
+ <h2 class="title">District Highlights</h2>
+ <div class="grid">
+  <div class="card"><div class="stat">🏞️</div><h3>Natural Beauty</h3><p>नदियाँ, पहाड़ और हरियाली।</p></div>
+  <div class="card"><div class="stat">🏛️</div><h3>Culture</h3><p>स्थानीय संस्कृति और धार्मिक स्थल।</p></div>
+  <div class="card"><div class="stat">🌾</div><h3>Agriculture</h3><p>खेती और स्थानीय कृषि उत्पाद।</p></div>
+ </div>
+</section>
 
-<div class="stats">
-<div class="stat">
-<b>5,610</b>
-<small>क्षेत्रफल (वर्ग किमी) · सरकारी पोर्टल का आँकड़ा</small>
-</div>
-<div class="stat">
-<b>886</b>
-<small>गाँव · सरकारी पोर्टल का आँकड़ा</small>
-</div>
-<div class="stat">
-<b id="total">0</b>
-<small>Collected Place Records</small>
-</div>
-<div class="stat">
-<b id="verified">0</b>
-<small>Verified Records</small>
-</div>
-</div>
+<section id="hospitals" class="page">
+ <h2 class="title">🏥 Shahdol Hospitals</h2>
+ <p>अस्पताल जाने से पहले उपलब्ध सेवाओं, डॉक्टरों और समय की पुष्टि अस्पताल से जरूर करें।</p>
+ <div class="grid">
+  <div class="card">
+   <img src="https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?w=700" alt="Hospital">
+   <h3>District Hospital Shahdol</h3>
+   <p>जिला स्तर पर सामान्य चिकित्सा और स्वास्थ्य सेवाओं के लिए सरकारी अस्पताल। विभाग और उपलब्ध सुविधाओं की पुष्टि करें।</p>
+   <a class="btn" target="_blank" href="https://www.google.com/maps/search/?api=1&query=District+Hospital+Shahdol">View Map</a>
+  </div>
+  <div class="card">
+   <img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=700" alt="Medical college">
+   <h3>Medical College Shahdol</h3>
+   <p>मेडिकल शिक्षा और संबद्ध अस्पताल सेवाओं से जुड़ा संस्थान। उपलब्ध विभागों की जानकारी आधिकारिक स्रोत से जाँचें।</p>
+   <a class="btn" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Medical+College+Shahdol">View Map</a>
+  </div>
+  <div class="card">
+   <img src="https://images.unsplash.com/photo-1538108149393-fbbd81895907?w=700" alt="Health centre">
+   <h3>Community Health Centres</h3>
+   <p>स्थानीय स्तर पर प्राथमिक और सामुदायिक स्वास्थ्य सेवाओं के लिए स्वास्थ्य केंद्र।</p>
+   <a class="btn" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Community+Health+Centre+Shahdol">Find Nearby</a>
+  </div>
+ </div>
+ <p class="tag">नोट: ये सामान्य प्रतिनिधि तस्वीरें हैं, संबंधित अस्पतालों की प्रमाणित असली तस्वीरें नहीं।</p>
+</section>
 
-<h2 class="section-title" id="categories">
-Explore <span>Categories</span>
-</h2>
+<section id="tourism" class="page">
+ <h2 class="title">🏞️ Tourist Places of Shahdol</h2>
+ <div class="grid">
+  <div class="card">
+   <img src="https://cdn.s3waas.gov.in/s354229abfcfa5649e7003b83dd4755294/uploads/2019/07/2019072297.jpg" alt="Bansagar Dam">
+   <h3>Bansagar Dam</h3><p>सोन नदी पर बना बहुउद्देशीय बाँध और आसपास का जल क्षेत्र।</p>
+   <a class="btn" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Bansagar+Dam">View Map</a>
+  </div>
+  <div class="card">
+   <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Virateshwar_temple%2C_Shahdol%2C_Madhya_Pradesh%2C_India_%282010%29.jpg/800px-Virateshwar_temple%2C_Shahdol%2C_Madhya_Pradesh%2C_India_%282010%29.jpg" alt="Virat Mandir">
+   <h3>Virat Mandir</h3><p>शहडोल का प्रसिद्ध ऐतिहासिक और धार्मिक मंदिर।</p>
+   <a class="btn" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Virat+Mandir+Shahdol">View Map</a>
+  </div>
+  <div class="card">
+   <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=700" alt="Nature">
+   <h3>Sarsi Island</h3><p>जलाशय क्षेत्र में स्थित प्राकृतिक पर्यटन स्थल। यात्रा से पहले नाव और पहुँच की स्थिति जाँचें।</p>
+   <a class="btn" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Sarsi+Island+Shahdol">View Map</a>
+  </div>
+  <div class="card">
+   <h3>Kshir Sagar</h3><p>नदियों के संगम और प्राकृतिक वातावरण के लिए जाना जाने वाला स्थल।</p>
+   <a class="btn" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Kshir+Sagar+Shahdol">View Map</a>
+  </div>
+  <div class="card">
+   <h3>Ghati Dongri</h3><p>शहडोल क्षेत्र का एक स्थानीय प्राकृतिक और दर्शनीय स्थल।</p>
+   <a class="btn" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Ghati+Dongri+Shahdol">View Map</a>
+  </div>
+ </div>
+ <p>आधिकारिक पर्यटन जानकारी: <a target="_blank" href="https://shahdol.nic.in/en/tourist-places/">Shahdol District Website</a></p>
+</section>
 
-<div class="categories">
-<div class="category" onclick="choose('hospital')"><span class="emoji">🏥</span><b>Hospitals</b></div>
-<div class="category" onclick="choose('temple')"><span class="emoji">🛕</span><b>Temples</b></div>
-<div class="category" onclick="choose('police')"><span class="emoji">🚔</span><b>Police Stations</b></div>
-<div class="category" onclick="choose('tourism')"><span class="emoji">🏞️</span><b>Tourism</b></div>
-<div class="category" onclick="choose('school')"><span class="emoji">🏫</span><b>Education</b></div>
-<div class="category" onclick="choose('bank')"><span class="emoji">🏦</span><b>Banks & ATM</b></div>
-<div class="category" onclick="choose('transport')"><span class="emoji">🚉</span><b>Transport</b></div>
-<div class="category" onclick="choose('government')"><span class="emoji">🏢</span><b>Government</b></div>
-<div class="category" onclick="choose('road')"><span class="emoji">🛣️</span><b>Roads</b></div>
-<div class="category" onclick="choose('bridge')"><span class="emoji">🌉</span><b>Bridges</b></div>
-<div class="category" onclick="choose('other')"><span class="emoji">📍</span><b>Other Places</b></div>
-</div>
+<section id="sabziyan" class="page">
+ <h2 class="title">🥬 Shahdol Sabziyan</h2>
+ <p>शहडोल और आसपास के क्षेत्रों में मौसम, पानी और स्थानीय खेती के अनुसार अलग-अलग सब्जियाँ उगाई जाती हैं।</p>
+ <div class="grid">
+  <div class="card"><h3>🥔 आलू</h3><p>कई प्रकार के भोजन में उपयोग होने वाली प्रमुख सब्जी।</p></div>
+  <div class="card"><h3>🍅 टमाटर</h3><p>सब्जी, चटनी और सलाद में इस्तेमाल होता है।</p></div>
+  <div class="card"><h3>🥬 पालक</h3><p>हरी पत्तेदार सब्जी, सर्दियों में भी उगाई जाती है।</p></div>
+  <div class="card"><h3>🍆 बैंगन</h3><p>स्थानीय बाजारों में मिलने वाली आम सब्जी।</p></div>
+  <div class="card"><h3>🥒 लौकी</h3><p>गर्म मौसम में उगाई जाने वाली सब्जी।</p></div>
+  <div class="card"><h3>🌶️ मिर्च</h3><p>हरी मिर्च का उपयोग भोजन में मसाले के रूप में होता है।</p></div>
+  <div class="card"><h3>🥕 गाजर</h3><p>मौसम के अनुसार बाजार में उपलब्ध रहती है।</p></div>
+  <div class="card"><h3>🧅 प्याज</h3><p>रोजमर्रा के भोजन में उपयोग होने वाली फसल।</p></div>
+  <div class="card"><h3>🌿 धनिया</h3><p>पत्तियों और बीजों का उपयोग मसाले के रूप में होता है।</p></div>
+ </div>
+ <p class="tag">यह सामान्य क्षेत्रीय सूची है, शहडोल में हर गाँव में उगाई जाने वाली प्रमाणित सूची नहीं।</p>
+</section>
 
-<h2 class="section-title" id="explore">
-🔎 Explore <span>Shahdol</span>
-</h2>
+<section id="gallery" class="page">
+ <h2 class="title">📸 Shahdol Photo Gallery</h2>
+ <div class="grid">
+  <div class="card"><img src="https://cdn.s3waas.gov.in/s354229abfcfa5649e7003b83dd4755294/uploads/2019/07/2019072297.jpg" alt="Bansagar Dam"><h3>Bansagar Dam</h3></div>
+  <div class="card"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Virateshwar_temple%2C_Shahdol%2C_Madhya_Pradesh%2C_India_%282010%29.jpg/800px-Virateshwar_temple%2C_Shahdol%2C_Madhya_Pradesh%2C_India_%282010%29.jpg" alt="Virat Mandir"><h3>Virat Mandir</h3></div>
+  <div class="card"><img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=700" alt="Nature"><h3>Nature</h3></div>
+ </div>
+</section>
 
-<div class="glass">
-<input id="search" placeholder="Search hospital, temple, village, place...">
-
-<div class="row">
-<select id="filter">
-<option value="all">All Categories</option>
-<option value="hospital">Hospitals</option>
-<option value="temple">Temples</option>
-<option value="police">Police</option>
-<option value="tourism">Tourism</option>
-<option value="school">Schools / Colleges</option>
-<option value="bank">Banks</option>
-<option value="transport">Transport</option>
-<option value="government">Government</option>
-<option value="road">Roads</option>
-<option value="bridge">Bridges</option>
-<option value="other">Other</option>
-</select>
-<button id="loadBtn" onclick="loadOSM()">🌐 Collect Map Data</button>
-</div>
-
-<p id="status">डेटा खोजने के लिए Collect Map Data दबाएँ।</p>
-
-<div class="row">
-<button onclick="downloadJSON()">⬇ Download JSON</button>
-<button class="secondary" onclick="document.getElementById('file').click()">📥 Import JSON</button>
-<button class="danger" onclick="clearData()">Clear Data</button>
-<input type="file" id="file" accept=".json" hidden onchange="importJSON(event)">
-</div>
-<p class="note">
-Data source: OpenStreetMap. Results depend on available map records.
-Data may be incomplete and should be verified before relying on it.
-</p>
-</div>
-
-<div id="results"></div>
-
-<h2 class="section-title" id="map">
-🗺️ Interactive <span>Map</span>
-</h2>
-
-<div class="glass">
-<iframe class="map"
-src="https://www.openstreetmap.org/export/embed.html?bbox=81.8%2C23.0%2C82.8%2C24.2&layer=mapnik"
-loading="lazy"></iframe>
-
-<button onclick="window.open('https://www.google.com/maps/search/?api=1&query=Shahdol+Madhya+Pradesh','_blank')">
-Open Google Maps ↗
-</button>
-</div>
-
-<h2 class="section-title">
-➕ Add <span>New Place</span>
-</h2>
-
-<div class="glass">
-<input id="newName" placeholder="Place name">
-<select id="newCategory">
-<option value="hospital">Hospital</option>
-<option value="temple">Temple</option>
-<option value="police">Police</option>
-<option value="tourism">Tourism</option>
-<option value="school">School / College</option>
-<option value="bank">Bank</option>
-<option value="transport">Transport</option>
-<option value="government">Government</option>
-<option value="road">Road</option>
-<option value="bridge">Bridge</option>
-<option value="other">Other</option>
-</select>
-<input id="newAddress" placeholder="Village / Address">
-<div class="row">
-<input id="newLat" placeholder="Latitude">
-<input id="newLon" placeholder="Longitude">
-</div>
-<input id="newPhone" placeholder="Phone number (optional)">
-<button onclick="addPlace()">Save Place +</button>
-</div>
-
-<h2 class="section-title" id="ai">
-🤖 District <span>AI Assistant</span>
-</h2>
-
-<div class="glass">
-<p>शहडोल जिले के बारे में सवाल पूछें।</p>
-
-<input id="backend" placeholder="Secure AI backend URL (optional)">
-
-<textarea id="question" rows="3"
-placeholder="शहडोल में कितने अस्पताल हैं?"></textarea>
-
-<button onclick="askAI()">Ask Shahdol AI ✦</button>
-
-<div id="answer"></div>
-
-<p class="note">
-AI के लिए सुरक्षित Groq backend URL जरूरी है। API key इस HTML में नहीं रखनी चाहिए।
-जब तक backend configure नहीं होगा, AI request नहीं भेजी जाएगी।
-</p>
-</div>
-
-<h2 class="section-title">
-💾 Data <span>Management</span>
-</h2>
-
-<div class="glass">
-<p>अपना डेटा इस browser में save करें और JSON backup डाउनलोड करें।</p>
-<p class="note">
-यह local storage है। यह shared online database नहीं है।
-</p>
-</div>
+<section id="explore" class="page">
+ <h2 class="title">🗺️ Explore Shahdol Map</h2>
+ <p>नीचे दिए गए नक्शे में शहडोल क्षेत्र देखें।</p>
+ <iframe class="map" loading="lazy" src="https://www.openstreetmap.org/export/embed.html?bbox=81.2%2C23.1%2C82.1%2C23.9&layer=mapnik"></iframe>
+ <br><a class="btn" target="_blank" href="https://www.openstreetmap.org/#map=10/23.3/81.5">Open Large Map</a>
+ <h2 class="title">Search a Place</h2>
+ <input id="placeSearch" placeholder="जगह का नाम लिखें...">
+ <button class="btn" onclick="searchPlace()">Search on Google Maps</button>
+</section>
 
 </main>
 
 <footer>
-<h3>🌍 SHAHDOL DISTRICT AI</h3>
-<p>Explore • Discover • Learn • Connect</p>
-<p>Independent District Information Project</p>
+ © 2026 Shahdol District Information Portal • Educational project
 </footer>
 
 <script>
-const KEY="shahdol_3d_database";
-let places=[];
-
-try{
- places=JSON.parse(localStorage.getItem(KEY)||"[]");
- if(!Array.isArray(places)) places=[];
-}catch(e){places=[];}
-
-const $=id=>document.getElementById(id);
-
-function save(){
- localStorage.setItem(KEY,JSON.stringify(places));
- render();
+function showPage(id,button){
+ document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+ const page=document.getElementById(id);
+ if(page)page.classList.add('active');
+ document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+ if(button)button.classList.add('active');
+ window.scrollTo({top:0,behavior:'smooth'});
 }
-
-function category(tags){
- const a=tags.amenity||"";
- const t=tags.tourism||"";
-
- if(/hospital|clinic|doctors|pharmacy/.test(a))return "hospital";
- if(/place_of_worship/.test(a))return "temple";
- if(a==="police")return "police";
- if(t)return "tourism";
- if(/school|college|university/.test(a))return "school";
- if(/bank|atm/.test(a))return "bank";
- if(/bus_station/.test(a)||tags.railway==="station")return "transport";
- if(/government|courthouse/.test(a))return "government";
- if(tags.bridge==="yes")return "bridge";
- if(tags.highway)return "road";
- return "other";
+function searchPlace(){
+ const q=document.getElementById('placeSearch').value.trim();
+ if(!q){alert('जगह का नाम लिखें');return;}
+ window.open('https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(q+' Shahdol Madhya Pradesh'),'_blank');
 }
-
-function render(){
-
- const q=$("search").value.toLowerCase();
- const filter=$("filter").value;
-
- const list=places.filter(p=>
-  (p.name+" "+p.address+" "+p.category).toLowerCase().includes(q)&&
-  (filter==="all"||p.category===filter)
- );
-
- $("total").textContent=places.length;
- $("verified").textContent=places.filter(p=>p.verified).length;
-
- $("results").innerHTML="";
-
- if(!list.length){
-  $("results").innerHTML=
-  '<div class="glass">कोई रिकॉर्ड नहीं मिला। Map Data collect करें या नया रिकॉर्ड जोड़ें।</div>';
- }
-
- list.forEach(p=>{
-
-  const card=document.createElement("div");
-  card.className="place";
-
-  const title=document.createElement("h3");
-  title.textContent=p.name;
-
-  const info=document.createElement("p");
-  info.textContent=
-   "Category: "+p.category+
-   "\nAddress: "+(p.address||"Not available")+
-   "\nSource: "+(p.source||"User added")+
-   "\nPhone: "+(p.phone||"Not available")+
-   "\nVerification: "+(p.verified?"Verified":"Unverified");
-
-  const link=document.createElement("a");
-  link.target="_blank";
-  link.textContent="📍 Open in Google Maps";
-
-  if(p.lat!==""&&p.lon!==""&&
-     Number.isFinite(Number(p.lat))&&
-     Number.isFinite(Number(p.lon))){
-   link.href="https://www.google.com/maps/search/?api=1&query="+
-    encodeURIComponent(p.lat+","+p.lon);
-  }else{
-   link.href="https://www.google.com/maps/search/?api=1&query="+
-    encodeURIComponent(p.name+" "+p.address+" Shahdol");
-  }
-
-  const del=document.createElement("button");
-  del.className="danger";
-  del.textContent="Delete";
-
-  del.onclick=()=>{
-   if(confirm("Delete this record?")){
-    places=places.filter(x=>x.id!==p.id);
-    save();
-   }
-  };
-
-  card.append(title,info,link,del);
-  $("results").append(card);
- });
-}
-
-$("search").addEventListener("input",render);
-$("filter").addEventListener("change",render);
-
-function choose(c){
- $("filter").value=c;
- render();
- $("explore").scrollIntoView({behavior:"smooth"});
-}
-
-function addPlace(){
-
- const name=$("newName").value.trim();
-
- if(!name){
-  alert("Place name required");
-  return;
- }
-
- places.push({
-  id:"user-"+Date.now(),
-  name,
-  category:$("newCategory").value,
-  address:$("newAddress").value,
-  lat:$("newLat").value,
-  lon:$("newLon").value,
-  phone:$("newPhone").value,
-  source:"User added",
-  verified:false
- });
-
- ["newName","newAddress","newLat","newLon","newPhone"]
- .forEach(id=>$(id).value="");
-
- save();
- alert("Place saved!");
-}
-
-async function loadOSM(){
-
- const btn=$("loadBtn");
- btn.disabled=true;
- $("status").textContent="OpenStreetMap से जानकारी खोज रहे हैं...";
-
- const query=`
- [out:json][timeout:60];
- area["name"="Shahdol"]["boundary"="administrative"]->.a;
- (
-  node(area.a)["amenity"];
-  way(area.a)["amenity"];
-  relation(area.a)["amenity"];
-  node(area.a)["tourism"];
-  way(area.a)["tourism"];
-  relation(area.a)["tourism"];
-  node(area.a)["highway"="bus_stop"];
-  node(area.a)["railway"="station"];
-  way(area.a)["highway"];
-  way(area.a)["bridge"="yes"];
- );
- out center tags;
- `;
-
- try{
-
-  const response=await fetch(
-   "https://overpass-api.de/api/interpreter",
-   {
-    method:"POST",
-    headers:{"Content-Type":"application/x-www-form-urlencoded"},
-    body:"data="+encodeURIComponent(query)
-   }
-  );
-
-  if(!response.ok)throw new Error("Map server error "+response.status);
-
-  const data=await response.json();
-  let added=0;
-
-  const ids=new Set(places.map(p=>p.id));
-
-  data.elements.forEach(el=>{
-
-   const tags=el.tags||{};
-   const lat=el.lat??el.center?.lat??"";
-   const lon=el.lon??el.center?.lon??"";
-   const id="osm-"+el.type+"-"+el.id;
-
-   if(ids.has(id))return;
-
-   const name=tags.name||tags["name:en"];
-   if(!name)return;
-
-   places.push({
-    id,
-    name,
-    category:category(tags),
-    address:[
-     tags["addr:suburb"],
-     tags["addr:village"],
-     tags["addr:street"]
-    ].filter(Boolean).join(", "),
-    lat,lon,
-    phone:tags.phone||tags["contact:phone"]||"",
-    source:"OpenStreetMap",
-    verified:false
-   });
-
-   ids.add(id);
-   added++;
-  });
-
-  save();
-
-  $("status").textContent=
-   added+" नए records मिले। कुल "+places.length+
-   " records सेव हैं। यह पूरी सूची होने की गारंटी नहीं है।";
-
- }catch(e){
-
-  $("status").textContent=
-   "Error: "+e.message+
-   "। Map service बाद में दोबारा try करें।";
-
- }finally{
-  btn.disabled=false;
- }
-
-}
-
-function downloadJSON(){
-
- const blob=new Blob(
-  [JSON.stringify(places,null,2)],
-  {type:"application/json"}
- );
-
- const url=URL.createObjectURL(blob);
- const a=document.createElement("a");
- a.href=url;
- a.download="shahdol-district-database.json";
- a.click();
- URL.revokeObjectURL(url);
-}
-
-function importJSON(event){
-
- const file=event.target.files[0];
- if(!file)return;
-
- const reader=new FileReader();
-
- reader.onload=()=>{
-
-  try{
-   const data=JSON.parse(reader.result);
-
-   if(!Array.isArray(data))throw new Error("Invalid JSON");
-
-   const ids=new Set(places.map(p=>p.id));
-   data.forEach(p=>{
-    if(p.name&&!ids.has(p.id)){
-     places.push(p);
-     ids.add(p.id);
-    }
-   });
-
-   save();
-   alert("Data imported successfully!");
-
-  }catch(e){
-   alert("Import failed: "+e.message);
-  }
- };
-
- reader.readAsText(file);
- event.target.value="";
-}
-
-function clearData(){
- if(confirm("Are you sure? All saved records will be deleted.")){
-  places=[];
-  save();
- }
-}
-
-async function askAI(){
-
- const endpoint=$("backend").value.trim();
- const question=$("question").value.trim();
-
- if(!endpoint){
-  $("answer").textContent=
-   "AI backend अभी configure नहीं है। सुरक्षित Groq backend URL डालने के बाद AI इस्तेमाल कर सकते हैं।";
-  return;
- }
-
- if(!question){
-  alert("अपना सवाल लिखें");
-  return;
- }
-
- $("answer").textContent="AI जवाब तैयार कर रहा है...";
-
- try{
-
-  const response=await fetch(endpoint,{
-   method:"POST",
-   headers:{"Content-Type":"application/json"},
-   body:JSON.stringify({
-    question,
-    district:"Shahdol",
-    places:places.slice(0,150)
-   })
-  });
-
-  if(!response.ok)throw new Error("Backend request failed");
-
-  const data=await response.json();
-  $("answer").textContent=data.answer||"No answer returned";
-
- }catch(e){
-  $("answer").textContent="AI Error: "+e.message;
- }
-}
-
-render();
 </script>
-
 </body>
 </html>
+ 
